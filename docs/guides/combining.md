@@ -10,7 +10,8 @@
 
 ## Setup
 
-In order to enable combining you need to set `isCombineEnabled` to `true` on a `<Droppable />` and you are good to go!
+In order to enable combining you need to set `isCombineEnabled` to `true` on a `<Droppable />` and you are good 
+If you _only_ want to combine, you can use `isCombineOnly` instead.
 
 ```js
 <Droppable droppableId="droppable" isCombineEnabled>

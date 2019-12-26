@@ -32,6 +32,7 @@ type Props = {|
   mode?: DroppableMode,
   isDropDisabled?: boolean,
   isCombineEnabled?: boolean,
+  isCombineOnly?: boolean,
   direction?: Direction,
   ignoreContainerClipping?: boolean,
   renderClone?: DraggableChildrenFn,
@@ -54,6 +55,7 @@ type Direction = 'horizontal' | 'vertical';
 - `type`: A `TypeId(string)` that can be used to simply accept only the specified class of `<Draggable />`. `<Draggable />`s always inherit type from the `<Droppable />` they are defined in. For example, if you use the type `PERSON` then it will only allow `<Draggable />`s of type `PERSON` to be dropped on itself. `<Draggable />`s of type `TASK` would not be able to be dropped on a `<Droppable />` with type `PERSON`. If no `type` is provided, it will be set to `'DEFAULT'`.
 - `isDropDisabled`: A flag to control whether or not dropping is currently allowed on the `<Droppable />`. You can use this to implement your own conditional dropping logic. It will default to `false`.
 - `isCombineEnabled`: A flag to control whether or not _all_ the `Draggables` in the list will be able to be **combined** with. It will default to `false`.
+- `isCombineOnly`: A flag to control reordering or not when dragging from a droppable to another is currently allowed on the `<Droppable />`. It will default to `false`.
 - `direction`: The direction in which items flow in this droppable. Options are `vertical` (default) and `horizontal`.
 - `ignoreContainerClipping`: When a `<Droppable />` is inside a scrollable container its area is constrained so that you can only drop on the part of the `<Droppable />` that you can see. Setting this prop opts out of this behavior, allowing you to drop anywhere on a `<Droppable />` even if it's visually hidden by a scrollable parent. The default behavior is suitable for most cases so odds are you'll never need to use this prop, but it can be useful if you've got very long `<Draggable />`s inside a short scroll container. Keep in mind that it might cause some unexpected behavior if you have multiple `<Droppable />`s inside scroll containers on the same page.
 - `mode`: `standard` (default) or `virtual`. Used to designate a list as a virtual list. See our [virtual lists pattern](/docs/patterns/virtual-lists.md)

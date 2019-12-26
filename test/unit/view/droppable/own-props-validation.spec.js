@@ -59,6 +59,17 @@ it('should throw if isCombineEnabled is set to null', () => {
   });
 });
 
+it('should throw if isCombineOnly is set to null', () => {
+  const ownProps: OwnProps = {
+    ...defaultOwnProps,
+  };
+  withError(() => {
+    // $ExpectError - null
+    ownProps.isCombineOnly = null;
+    mount({ ownProps });
+  });
+});
+
 it('should throw if ignoreContainerClipping is set to null', () => {
   const ownProps: OwnProps = {
     ...defaultOwnProps,

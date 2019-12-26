@@ -18,6 +18,7 @@ import { find } from '../../native-with-fallback';
 import getDidStartAfterCritical from '../did-start-after-critical';
 import calculateReorderImpact from '../calculate-drag-impact/calculate-reorder-impact';
 import getIsDisplaced from '../get-is-displaced';
+import noImpact from '../no-impact';
 
 type Args = {|
   pageBorderBoxWithDroppableScroll: Rect,
@@ -60,6 +61,12 @@ export default ({
   viewport,
   afterCritical,
 }: Args): DragImpact => {
+  const inHomeList: boolean = isHomeOf(draggable, destination);
+
+  if (destination.isCombineOnly && !inHomeList) {
+    return noImpact;
+  }
+
   const axis: Axis = destination.axis;
   const displacedBy: DisplacedBy = getDisplacedBy(
     destination.axis,
