@@ -78,6 +78,7 @@ export const makeMapStateToProps = (): Selector => {
     isDraggingOverForConsumer: boolean,
     isDraggingOverForImpact: boolean,
     dragging: DraggableDimension,
+    isCombineOnly: boolean,
     // snapshot: StateSnapshot,
     renderClone: ?DraggableChildrenFn,
   ): MapProps => {
@@ -107,7 +108,8 @@ export const makeMapStateToProps = (): Selector => {
       };
     }
 
-    if (!isEnabled) {
+    // prevent placeholder when droppable is disabled or isCombineOnly
+    if (!isEnabled || isCombineOnly) {
       return idleWithoutAnimation;
     }
 
@@ -138,6 +140,7 @@ export const makeMapStateToProps = (): Selector => {
     const id: DroppableId = ownProps.droppableId;
     const type: TypeId = ownProps.type;
     const isEnabled: boolean = !ownProps.isDropDisabled;
+    const isCombineOnly: boolean = ownProps.isCombineOnly;
     const renderClone: ?DraggableChildrenFn = ownProps.renderClone;
 
     if (state.isDragging) {
@@ -158,6 +161,7 @@ export const makeMapStateToProps = (): Selector => {
         isDraggingOver,
         isDraggingOver,
         dragging,
+        isCombineOnly,
         renderClone,
       );
     }
@@ -182,6 +186,7 @@ export const makeMapStateToProps = (): Selector => {
         whatIsDraggedOverFromResult(completed.result) === id,
         whatIsDraggedOver(completed.impact) === id,
         dragging,
+        isCombineOnly,
         renderClone,
       );
     }
@@ -236,6 +241,7 @@ const defaultProps = ({
   direction: 'vertical',
   isDropDisabled: false,
   isCombineEnabled: false,
+  isCombineOnly: false,
   ignoreContainerClipping: false,
   renderClone: null,
   getContainerForClone: getBody,

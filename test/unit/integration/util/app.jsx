@@ -65,6 +65,7 @@ type Props = {|
   // droppable
   direction?: Direction,
   isCombineEnabled?: boolean,
+  isCombineOnly?: boolean,
   getContainerForClone?: () => HTMLElement,
   useClone?: boolean,
 
@@ -117,6 +118,7 @@ export default function App(props: Props) {
     props.isCombineEnabled,
     false,
   );
+  const isCombineOnly: boolean = withDefaultBool(props.isCombineOnly, false);
   const renderClone = (() => {
     const useClone: boolean = withDefaultBool(props.useClone, false);
     if (!useClone) {
@@ -147,6 +149,7 @@ export default function App(props: Props) {
         droppableId="droppable"
         direction={direction}
         isCombineEnabled={isCombineEnabled}
+        isCombineOnly={isCombineOnly}
         renderClone={renderClone}
         getContainerForClone={props.getContainerForClone}
       >
