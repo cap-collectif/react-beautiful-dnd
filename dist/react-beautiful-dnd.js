@@ -429,10 +429,74 @@
 
   var create$1 = create;
 
+  var f$1 = {}.propertyIsEnumerable;
+
+  var _objectPie = {
+  	f: f$1
+  };
+
+  var gOPD = Object.getOwnPropertyDescriptor;
+
+  var f$2 = _descriptors ? gOPD : function getOwnPropertyDescriptor(O, P) {
+    O = _toIobject(O);
+    P = _toPrimitive(P, true);
+    if (_ie8DomDefine) try {
+      return gOPD(O, P);
+    } catch (e) { /* empty */ }
+    if (_has(O, P)) return _propertyDesc(!_objectPie.f.call(O, P), O[P]);
+  };
+
+  var _objectGopd = {
+  	f: f$2
+  };
+
+  // Works with __proto__ only. Old v8 can't work with null proto objects.
+  /* eslint-disable no-proto */
+
+
+  var check = function (O, proto) {
+    _anObject(O);
+    if (!_isObject(proto) && proto !== null) throw TypeError(proto + ": can't set as prototype!");
+  };
+  var _setProto = {
+    set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
+      function (test, buggy, set) {
+        try {
+          set = _ctx(Function.call, _objectGopd.f(Object.prototype, '__proto__').set, 2);
+          set(test, []);
+          buggy = !(test instanceof Array);
+        } catch (e) { buggy = true; }
+        return function setPrototypeOf(O, proto) {
+          check(O, proto);
+          if (buggy) O.__proto__ = proto;
+          else set(O, proto);
+          return O;
+        };
+      }({}, false) : undefined),
+    check: check
+  };
+
+  // 19.1.3.19 Object.setPrototypeOf(O, proto)
+
+  _export(_export.S, 'Object', { setPrototypeOf: _setProto.set });
+
+  var setPrototypeOf = _core.Object.setPrototypeOf;
+
+  var setPrototypeOf$1 = setPrototypeOf;
+
+  function _setPrototypeOf(o, p) {
+    _setPrototypeOf = setPrototypeOf$1 || function _setPrototypeOf(o, p) {
+      o.__proto__ = p;
+      return o;
+    };
+
+    return _setPrototypeOf(o, p);
+  }
+
   function _inheritsLoose(subClass, superClass) {
     subClass.prototype = create$1(superClass.prototype);
     subClass.prototype.constructor = subClass;
-    subClass.__proto__ = superClass;
+    _setPrototypeOf(subClass, superClass);
   }
 
   var spacesAndTabs = /[ \t]{2,}/g;
@@ -464,16 +528,10 @@
 
   function noop() {}
 
-  var f$1 = Object.getOwnPropertySymbols;
+  var f$3 = Object.getOwnPropertySymbols;
 
   var _objectGops = {
-  	f: f$1
-  };
-
-  var f$2 = {}.propertyIsEnumerable;
-
-  var _objectPie = {
-  	f: f$2
+  	f: f$3
   };
 
   // 7.1.13 ToObject(argument)
